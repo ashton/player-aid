@@ -9,7 +9,7 @@ import Update exposing (init, update)
 import View exposing (view)
 
 
-main : Program () Model Msg
+main : Program Config Model Msg
 main =
     Browser.application
         { init = init
