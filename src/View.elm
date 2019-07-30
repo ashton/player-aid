@@ -1,46 +1,71 @@
 module View exposing (renderRoute, view)
 
 import Browser
-import Cats.View
-import Counter.View
-import Element exposing (..)
-import Element.Events exposing (..)
-import Element.Input exposing (button)
-import Element.Region exposing (..)
+import Bulma.CDN exposing (stylesheet)
+import Bulma.Components exposing (..)
+import Bulma.Layout exposing (SectionSpacing(..))
+import Bulma.Modifiers exposing (Color(..))
+import Events.View
+import Html exposing (Html, div, i, span, text)
+import Html.Attributes exposing (class)
 import Router.Routes exposing (..)
 import Router.Types exposing (Msg(..))
-import Styles
+import Tables.View
 import Types exposing (..)
 
 
 view : Model -> Browser.Document Types.Msg
 view model =
-    { title = "bg-organizer-front"
+    { title = "Board Game Event Organizer"
     , body =
-        [ Element.layout [] <|
-            el [ width (px 800), centerX ] (renderRoute model)
+        [ div []
+            [ stylesheet
+            , appbar model.router.page
+            , Bulma.Layout.section NotSpaced
+                []
+                [ renderRoute model
+                ]
+            ]
         ]
     }
 
 
-renderRoute : Model -> Element Types.Msg
+renderRoute : Model -> Html Types.Msg
 renderRoute model =
     case model.router.page of
-        Home ->
-            column
-                [ spacing 5 ]
-                [ el ([ heading 1 ] ++ Styles.title) (text "Welcome")
-                , row [ spacing 5 ]
-                    [ link ([ padding 5 ] ++ Styles.button) { url = toPath CatsPage, label = text "Go to Cats" }
-                    , link ([ padding 5 ] ++ Styles.button) { url = toPath CounterPage, label = text "Go to Counter" }
-                    ]
-                ]
-
         NotFound ->
             text "404 Not Found"
 
-        CatsPage ->
-            Element.map MsgForCats (Cats.View.view model.cats)
+        TablesPage ->
+            Html.map MsgForTables (Tables.View.view model.tables)
 
-        CounterPage ->
-            Element.map MsgForCounter (Counter.View.view model.counter)
+        EventsPage ->
+            Html.map MsgForEvents (Events.View.view model.events)
+
+
+appbar : Page -> Html Types.Msg
+appbar currentPage =
+    navbar { color = Light, transparent = False }
+        []
+        [ navbarBrand []
+            (navbarBurger False
+                []
+                []
+            )
+            [ navbarItem False
+                []
+                [ span [ class "icon" ]
+                    [ i [ class "fas fa-gift" ] []
+                    ]
+                , span [ class "has-text-weight-light" ] [ text "Board Game Event Organizer" ]
+                ]
+            ]
+        , navbarMenu False
+            []
+            [ navbarStart []
+                [ navbarItemLink (currentPage == EventsPage) [] [ text "Events" ]
+                ]
+            , navbarEnd []
+                []
+            ]
+        ]

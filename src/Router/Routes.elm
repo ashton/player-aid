@@ -1,37 +1,32 @@
-module Router.Routes exposing (..)
+module Router.Routes exposing (Page(..), routes, toPath)
 
-import Browser.Navigation
-import Url.Parser exposing ((</>), Parser, map, oneOf, parse, s, top)
+import Url.Parser exposing (Parser, map, oneOf, s, top)
 
 
 type Page
-    = Home
-    | NotFound
-    | CatsPage
-    | CounterPage
+    = NotFound
+    | TablesPage
+    | EventsPage
 
 
 routes : Parser (Page -> a) a
 routes =
     oneOf
-        [ map Home top
+        [ map EventsPage top
         , map NotFound (s "404")
-        , map CatsPage (s "cats")
-        , map CounterPage (s "counter")
+        , map TablesPage (s "tables")
+        , map EventsPage (s "events")
         ]
 
 
 toPath : Page -> String
 toPath page =
     case page of
-        Home ->
-            "/"
-
         NotFound ->
             "/404"
 
-        CatsPage ->
-            "/cats"
+        TablesPage ->
+            "/tables"
 
-        CounterPage ->
-            "/counter"
+        EventsPage ->
+            "/events"

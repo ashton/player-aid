@@ -1,18 +1,15 @@
-module Types exposing (..)
+module Types exposing (Model, Msg(..))
 
-import Cats.Types
-import Counter.Types
+import Events.Types
 import Router.Types
+import Tables.Types
 
 
 type alias Model =
-    { router : Router.Types.Model
-    , cats : Cats.Types.Model
-    , counter : Counter.Types.Model
-    }
+    { router : Router.Types.Model, tables : Tables.Types.Model, events : Events.Types.Model }
 
 
 type Msg
     = MsgForRouter Router.Types.Msg
-    | MsgForCats Cats.Types.Msg
-    | MsgForCounter Counter.Types.Msg
+    | MsgForTables Tables.Types.Msg
+    | MsgForEvents Events.Types.Msg
