@@ -11,7 +11,7 @@ import Url exposing (Url)
 
 init : Config -> (Url -> (Key -> Return Msg Model))
 init config url key =
-    singleton (Model config) |> andMapCmd MsgForRouter (Router.Update.init url key) |> andMapCmd MsgForTables Tables.Update.init |> andMapCmd MsgForEvents Events.Update.init
+    singleton (Model config) |> andMapCmd MsgForRouter (Router.Update.init url key) |> andMapCmd MsgForTables Tables.Update.init |> andMapCmd MsgForEvents (Events.Update.init config)
 
 
 update : Msg -> (Model -> Return Msg Model)

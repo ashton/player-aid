@@ -21,5 +21,4 @@ type alias Model =
 
 
 type Msg
-    = GetList
-    | HandleList Events
+    = HandleList Events
