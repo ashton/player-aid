@@ -2,6 +2,7 @@ module Router.Update exposing (init, update)
 
 import Browser exposing (UrlRequest(..))
 import Browser.Navigation exposing (Key, load, pushUrl)
+import Events.Types
 import RemoteData exposing (..)
 import Return exposing (Return, return)
 import Router.Helpers exposing (toPath)
@@ -26,6 +27,9 @@ update msgFor model =
     case msgFor of
         Types.MsgForRouter msg ->
             updateRouter msg model
+
+        Types.MsgForEvents (Events.Types.EventCreated _) ->
+            updateRouter (Go EventsListPage) model
 
         _ ->
             return model Cmd.none

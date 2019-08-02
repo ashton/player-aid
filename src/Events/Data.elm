@@ -82,5 +82,5 @@ createEvent baseUrl data =
     Http.post
         { url = url
         , body = Http.jsonBody (eventEncoder data)
-        , expect = Http.expectWhatever resultMsg
+        , expect = Http.expectJson resultMsg eventDecoder
         }

@@ -34,4 +34,4 @@ type Msg
     | UpdateFormDate String
     | UpdateFormDescription String
     | HandleFormSubmit
-    | EventCreated (WebData ())
+    | EventCreated (WebData Event)

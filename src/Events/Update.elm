@@ -66,5 +66,14 @@ updateEvents config msg model =
         HandleFormSubmit ->
             return model (createEvent config.apiUrl model.form)
 
-        EventCreated _ ->
-            return model Cmd.none
+        EventCreated result ->
+            case result of
+                Success event ->
+                    let
+                        events =
+                            RemoteData.map (\xs -> event :: xs) model.events
+                    in
+                    return { model | events = events } Cmd.none
+
+                _ ->
+                    return model Cmd.none
