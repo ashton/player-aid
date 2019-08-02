@@ -16,7 +16,7 @@ init config url key =
 
 update : Msg -> (Model -> Return Msg Model)
 update msg model =
-    singleton (Model model.config) |> andMapCmd MsgForRouter (Router.Update.update msg model.router) |> andMapCmd MsgForTables (Tables.Update.update msg model.tables) |> andMapCmd MsgForEvents (Events.Update.update msg model.events)
+    singleton (Model model.config) |> andMapCmd MsgForRouter (Router.Update.update msg model.router) |> andMapCmd MsgForTables (Tables.Update.update msg model.tables) |> andMapCmd MsgForEvents (Events.Update.update model.config msg model.events)
 
 
 andMapCmd : (msg1 -> msg2) -> (Return msg1 model1 -> (Return msg2 (model1 -> model2) -> Return msg2 model2))

@@ -2,16 +2,16 @@ module View exposing (renderRoute, view)
 
 import Browser
 import Bulma.CDN exposing (stylesheet)
-import Bulma.Components exposing (..)
+import Bulma.Components exposing (navbar, navbarBrand, navbarBurger, navbarEnd, navbarItem, navbarItemLink, navbarMenu, navbarStart)
 import Bulma.Layout exposing (SectionSpacing(..))
 import Bulma.Modifiers exposing (Color(..))
 import Events.View
 import Html exposing (Html, div, i, span, text)
 import Html.Attributes exposing (class)
-import Router.Routes exposing (..)
+import Router.Routes exposing (Page(..))
 import Router.Types exposing (Msg(..))
 import Tables.View
-import Types exposing (..)
+import Types exposing (Model, Msg(..))
 
 
 view : Model -> Browser.Document Types.Msg
@@ -39,8 +39,11 @@ renderRoute model =
         TablesPage ->
             Html.map MsgForTables (Tables.View.view model.tables)
 
-        EventsPage ->
-            Html.map MsgForEvents (Events.View.view model.events)
+        EventsListPage ->
+            Html.map MsgForEvents (Events.View.listView model.events)
+
+        EventsFormPage ->
+            Html.map MsgForEvents (Events.View.formView model.events)
 
 
 appbar : Page -> Html Types.Msg
@@ -55,15 +58,15 @@ appbar currentPage =
             [ navbarItem False
                 []
                 [ span [ class "icon" ]
-                    [ i [ class "fas fa-gift" ] []
+                    [ i [ class "fas fa-dice" ] []
                     ]
-                , span [ class "has-text-weight-light" ] [ text "Board Game Event Organizer" ]
+                , span [ class "has-text-weight-light" ] [ text "Player Aid" ]
                 ]
             ]
         , navbarMenu False
             []
             [ navbarStart []
-                [ navbarItemLink (currentPage == EventsPage) [] [ text "Events" ]
+                [ navbarItemLink (currentPage == EventsListPage) [] [ text "Events" ]
                 ]
             , navbarEnd []
                 []

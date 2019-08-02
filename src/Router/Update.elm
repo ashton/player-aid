@@ -4,6 +4,7 @@ import Browser exposing (UrlRequest(..))
 import Browser.Navigation exposing (Key, load, pushUrl)
 import RemoteData exposing (..)
 import Return exposing (Return, return)
+import Router.Helpers exposing (toPath)
 import Router.Routes exposing (..)
 import Router.Types exposing (..)
 import Types

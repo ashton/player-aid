@@ -1,6 +1,13 @@
-module Events.Types exposing (Event, Events, Model, Msg(..))
+module Events.Types exposing (Event, EventData, Events, Model, Msg(..))
 
 import RemoteData exposing (WebData)
+
+
+type alias EventData =
+    { name : Maybe String
+    , date : Maybe String
+    , description : Maybe String
+    }
 
 
 type alias Event =
@@ -17,8 +24,14 @@ type alias Events =
 
 type alias Model =
     { events : WebData (List Event)
+    , form : EventData
     }
 
 
 type Msg
     = HandleList Events
+    | UpdateFormName String
+    | UpdateFormDate String
+    | UpdateFormDescription String
+    | HandleFormSubmit
+    | EventCreated (WebData ())
