@@ -8,7 +8,8 @@ const config = isDev => ({
   entry: "./src/index.js",
   output: {
     path: `${__dirname}/build`,
-    filename: "[name].[hash].js"
+    filename: "[name].[hash].js",
+    publicPath: '/'
   },
   module: {
     rules: [
@@ -25,6 +26,9 @@ const config = isDev => ({
         ]
       }
     ]
+  },
+  devServer: {
+    historyApiFallback: true,
   },
   plugins: [
     new HtmlWebpackPlugin({
