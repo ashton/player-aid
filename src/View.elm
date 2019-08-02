@@ -6,6 +6,7 @@ import Bulma.Components exposing (navbar, navbarBrand, navbarBurger, navbarEnd, 
 import Bulma.Layout exposing (SectionSpacing(..))
 import Bulma.Modifiers exposing (Color(..))
 import Events.View
+import Feedback.View
 import Html exposing (Html, div, i, span, text)
 import Html.Attributes exposing (class)
 import Router.Routes exposing (Page(..))
@@ -23,11 +24,17 @@ view model =
             , appbar model.router.page
             , Bulma.Layout.section NotSpaced
                 []
-                [ renderRoute model
+                [ renderFeedback model
+                , renderRoute model
                 ]
             ]
         ]
     }
+
+
+renderFeedback : Model -> Html Types.Msg
+renderFeedback model =
+    Html.map MsgForFeedback (Feedback.View.view model.feedback)
 
 
 renderRoute : Model -> Html Types.Msg
@@ -58,16 +65,14 @@ appbar currentPage =
             [ navbarItem False
                 []
                 [ span [ class "icon" ]
-                    [ i [ class "fas fa-dice" ] []
-                    ]
+                    [ i [ class "fas fa-dice" ] [] ]
                 , span [ class "has-text-weight-light" ] [ text "Player Aid" ]
                 ]
             ]
         , navbarMenu False
             []
             [ navbarStart []
-                [ navbarItemLink (currentPage == EventsListPage) [] [ text "Events" ]
-                ]
+                [ navbarItemLink (currentPage == EventsListPage) [] [ text "Events" ] ]
             , navbarEnd []
                 []
             ]

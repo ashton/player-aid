@@ -71,7 +71,7 @@ updateEvents config msg model =
                 Success event ->
                     let
                         events =
-                            RemoteData.map (\xs -> event :: xs) model.events
+                            RemoteData.map (\list -> list ++ [ event ]) model.events
                     in
                     return { model | events = events } Cmd.none
 
