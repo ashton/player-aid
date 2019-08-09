@@ -8,6 +8,7 @@ script:
   - yarn test
   - echo "API_URL=$PLAYER_AID_API_URL" > .env
   - yarn build
+  - sed -i '' 's/\/main/main/' build/index.html
 
 deploy:
   provider: pages
