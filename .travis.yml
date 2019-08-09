@@ -6,5 +6,13 @@ elm:
 script:
   - elm-format --validate .
   - yarn test
+  - echo "API_URL=$PLAYER_AID_API_URL" > .env
   - yarn build
-  - mv build/ docs/
+
+deploy:
+  provider: pages
+  local_dir: ./build
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  on:
+    branch: ghpages
