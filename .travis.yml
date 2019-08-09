@@ -5,6 +5,6 @@ elm:
 
 script:
   - elm-format --validate .
-  - elm-test
-  - npm build
+  - yarn test
+  - yarn build
   - mv build/ docs/

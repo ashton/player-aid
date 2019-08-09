@@ -1,7 +1,7 @@
 module Tables.Update exposing (..)
 
-import Tables.Types exposing (..)
 import Return exposing (Return, return)
+import Tables.Types exposing (..)
 import Types
 
 
