@@ -1,14 +1,19 @@
-module Tables.Update exposing (..)
+module Tables.Update exposing (init, update, updateTables)
 
-import Tables.Types exposing (..)
 import Return exposing (Return, return)
+import Tables.Helpers exposing (updateFormGame)
+import Tables.Types exposing (Model, Msg(..), TableData)
 import Types
 
 
 init : Return Msg Model
 init =
     return
-        { sample = ""
+        { form =
+            { game = Nothing
+            , maxPlayers = Nothing
+            , event = Nothing
+            }
         }
         Cmd.none
 
@@ -26,5 +31,9 @@ update msgFor model =
 updateTables : Msg -> Model -> Return Msg Model
 updateTables msg model =
     case msg of
-        NoOp ->
-            return model Cmd.none
+        UpdateFormGame game ->
+            let
+                updatedForm =
+                    updateFormGame (Just game) model.form
+            in
+            return { model | form = updatedForm } Cmd.none

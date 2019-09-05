@@ -1,10 +1,17 @@
-module Tables.Types exposing (..)
+module Tables.Types exposing (Model, Msg(..), TableData)
+
+
+type alias TableData =
+    { game : Maybe String
+    , maxPlayers : Maybe Int
+    , event : Maybe String
+    }
 
 
 type alias Model =
-    { sample : String
+    { form : TableData
     }
 
 
 type Msg
-    = NoOp
+    = UpdateFormGame String

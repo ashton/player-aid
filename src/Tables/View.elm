@@ -1,9 +1,10 @@
-module Tables.View exposing (view)
+module Tables.View exposing (formView)
 
-import Html exposing (Html, text)
-import Tables.Types exposing (..)
+import Html exposing (Html)
+import Tables.Types exposing (Model, Msg(..))
+import Tables.Views.Form as FormView
 
 
-view : Model -> Html Msg
-view model =
-    text "Edit me at src/Tables/View.elm"
+formView : Model -> Html Msg
+formView model =
+    FormView.view model.form
