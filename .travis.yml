@@ -1,0 +1,17 @@
+language: elm
+node_js: '10.15.3'
+elm:
+  - '0.19.0'
+
+script:
+  - elm-format --validate .
+  - yarn test
+  - echo "API_URL=$PLAYER_AID_API_URL" > .env
+  - echo "PUBLIC_PATH=$PUBLIC_PATH" >> .env
+  - yarn build
+
+deploy:
+  provider: pages
+  local_dir: ./build
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN

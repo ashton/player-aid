@@ -9,7 +9,7 @@ const config = isDev => ({
   output: {
     path: `${__dirname}/build`,
     filename: "[name].[hash].js",
-    publicPath: '/'
+    publicPath: (isDev) ? '/' : dotenv.parsed.PUBLIC_PATH
   },
   module: {
     rules: [
