@@ -1,7 +1,7 @@
 module Tables.Update exposing (init, update, updateTables)
 
 import Return exposing (Return, return)
-import Tables.Helpers exposing (updateFormGame)
+import Tables.Helpers exposing (updateFormGame, updateFormMaxPlayers)
 import Tables.Types exposing (Model, Msg(..), TableData)
 import Types
 
@@ -35,5 +35,12 @@ updateTables msg model =
             let
                 updatedForm =
                     updateFormGame (Just game) model.form
+            in
+            return { model | form = updatedForm } Cmd.none
+
+        UpdateFormMaxPlayers maxPlayers ->
+            let
+                updatedForm =
+                    updateFormMaxPlayers (Just maxPlayers) model.form
             in
             return { model | form = updatedForm } Cmd.none

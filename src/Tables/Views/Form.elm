@@ -17,14 +17,17 @@ view formData =
 
         value =
             getString >> Attr.value
+
+        maxPlayers =
+            Maybe.map String.fromInt formData.maxPlayers
     in
     container []
         [ field []
             [ controlLabel [] [ text "Game" ]
             , controlInput controlInputModifiers [] [ onInput UpdateFormGame, value formData.game ] []
-            ],
-            field [] [
-              controlLabel [] [ text "Max Players" ],
-              , controlInput controlInputModifiers [] [ onInput UpdateFormMaxPlayers, value formData.maxPlayers ]
-              ]
+            ]
+        , field []
+            [ controlLabel [] [ text "Max Players" ]
+            , controlInput controlInputModifiers [] [ onInput UpdateFormMaxPlayers, value maxPlayers ] []
+            ]
         ]

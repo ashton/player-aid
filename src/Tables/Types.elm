@@ -15,3 +15,4 @@ type alias Model =
 
 type Msg
     = UpdateFormGame String
+    | UpdateFormMaxPlayers String

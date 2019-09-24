@@ -1,4 +1,4 @@
-module Tables.Helpers exposing (updateFormGame)
+module Tables.Helpers exposing (updateFormGame, updateFormMaxPlayers)
 
 import Tables.Types exposing (TableData)
 
@@ -10,4 +10,4 @@ updateFormGame game model =
 
 updateFormMaxPlayers : Maybe String -> TableData -> TableData
 updateFormMaxPlayers maxPlayers model =
-    { model | maxPlayers = maxPlayers }
+    { model | maxPlayers = Maybe.andThen String.toInt maxPlayers }
