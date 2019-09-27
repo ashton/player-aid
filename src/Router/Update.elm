@@ -10,13 +10,12 @@ import Router.Routes exposing (..)
 import Router.Types exposing (..)
 import Types
 import Url exposing (Url)
-import Url.Parser exposing (parse)
 
 
 init : Url -> Key -> Return Msg Model
 init url key =
     return
-        { page = Maybe.withDefault NotFound <| parse routes url
+        { page = parseUrl url
         , key = key
         }
         Cmd.none
@@ -39,7 +38,7 @@ updateRouter : Msg -> Model -> Return Msg Model
 updateRouter msg model =
     case msg of
         OnUrlChange url ->
-            return { model | page = Maybe.withDefault NotFound <| parse routes url } Cmd.none
+            return { model | page = parseUrl url } Cmd.none
 
         OnUrlRequest urlRequest ->
             case urlRequest of

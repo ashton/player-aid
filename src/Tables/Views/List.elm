@@ -1,21 +1,21 @@
-module Events.Views.List exposing (view)
+module Tables.Views.List exposing (view)
 
 import Bulma.Elements exposing (button, buttonModifiers, table, tableBody, tableCell, tableCellHead, tableFoot, tableHead, tableModifiers, tableRow)
 import Bulma.Modifiers as Modifiers
-import Events.Types exposing (Event, Model, Msg(..))
 import Html exposing (Html, a, i, text)
 import Html.Attributes exposing (class, colspan, href)
 import RemoteData exposing (RemoteData(..))
 import Router.Helpers exposing (toPath)
 import Router.Routes exposing (Page(..))
+import Tables.Types exposing (Model, Msg(..), Table, Tables)
 
 
-view : Model -> Html Msg
-view model =
+view : String -> Tables -> Html Msg
+view eventId tables =
     table tableModifiers
         []
         [ tableHeader
-        , tableContent model
+        , tableContent tables
         , tableFooter
         ]
 
@@ -25,21 +25,21 @@ tableHeader =
     tableHead []
         [ tableRow False
             []
-            [ tableCellHead [] [ text "Name" ]
-            , tableCellHead [] [ text "Date" ]
-            , tableCellHead [] [ text "Description" ]
+            [ tableCellHead [] [ text "Game" ]
+            , tableCellHead [] [ text "Max Players" ]
+            , tableCellHead [] [ text "Full" ]
             ]
         ]
 
 
-tableContent : Model -> Html Msg
-tableContent model =
-    case model.events of
+tableContent : Tables -> Html Msg
+tableContent tables =
+    case tables of
         Loading ->
             tableBody [] [ loading ]
 
-        Success eventList ->
-            tableBody [] (renderEvents eventList)
+        Success tableList ->
+            tableBody [] (renderTables tableList)
 
         _ ->
             tableBody [] []
@@ -71,16 +71,16 @@ tableFooter =
         ]
 
 
-renderEvents : List Event -> List (Html Msg)
-renderEvents events =
-    List.map renderEvent events
+renderTables : List Table -> List (Html Msg)
+renderTables tables =
+    List.map renderTable tables
 
 
-renderEvent : Event -> Html Msg
-renderEvent event =
+renderTable : Table -> Html Msg
+renderTable table =
     tableRow False
         []
-        [ tableCell [] [ a [ href <| toPath <| TablesListPage event.id ] [ text event.name ] ]
-        , tableCell [] [ text event.date ]
-        , tableCell [] [ text event.description ]
+        [ tableCell [] [ text table.game ]
+        , tableCell [] [ text <| String.fromInt <| table.maxPlayers ]
+        , tableCell [] [ text "No" ]
         ]

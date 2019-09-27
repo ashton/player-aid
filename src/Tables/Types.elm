@@ -1,4 +1,18 @@
-module Tables.Types exposing (Model, Msg(..), TableData)
+module Tables.Types exposing (Model, Msg(..), Table, TableData, Tables)
+
+import RemoteData exposing (WebData)
+
+
+type alias Table =
+    { id : String
+    , game : String
+    , maxPlayers : Int
+    , event : String
+    }
+
+
+type alias Tables =
+    WebData (List Table)
 
 
 type alias TableData =
@@ -10,9 +24,11 @@ type alias TableData =
 
 type alias Model =
     { form : TableData
+    , tables : Tables
     }
 
 
 type Msg
-    = UpdateFormGame String
+    = HandleList Tables
+    | UpdateFormGame String
     | UpdateFormMaxPlayers String

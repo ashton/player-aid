@@ -2,6 +2,7 @@ module Router.Helpers exposing (changeRoute, toPath)
 
 import Router.Routes exposing (Page(..))
 import Router.Types exposing (Msg(..))
+import String.Format
 import Types exposing (Msg(..))
 
 
@@ -11,8 +12,11 @@ toPath page =
         NotFound ->
             "/404"
 
-        TablesPage ->
-            "/tables"
+        TablesListPage eventId ->
+            "/events/{{  }}/tables" |> String.Format.value eventId
+
+        TablesFormPage eventId ->
+            "/events/{{  }}/tables/new" |> String.Format.value eventId
 
         EventsListPage ->
             "/events"

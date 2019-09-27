@@ -1,11 +1,13 @@
-module Router.Routes exposing (Page(..), routes)
+module Router.Routes exposing (Page(..), parseUrl, routes)
 
-import Url.Parser exposing ((</>), Parser, map, oneOf, s, top)
+import Url exposing (Url)
+import Url.Parser exposing ((</>), Parser, map, oneOf, parse, s, string, top)
 
 
 type Page
     = NotFound
-    | TablesPage
+    | TablesListPage String
+    | TablesFormPage String
     | EventsListPage
     | EventsFormPage
 
@@ -15,7 +17,13 @@ routes =
     oneOf
         [ map EventsListPage top
         , map NotFound (s "404")
-        , map TablesPage (s "tables")
+        , map TablesListPage (s "events" </> string </> s "tables")
+        , map TablesFormPage (s "events" </> string </> s "tables" </> s "new")
         , map EventsListPage (s "events")
         , map EventsFormPage (s "events" </> s "new")
         ]
+
+
+parseUrl : Url -> Page
+parseUrl url =
+    Maybe.withDefault NotFound <| parse routes url

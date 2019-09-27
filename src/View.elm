@@ -43,8 +43,11 @@ renderRoute model =
         NotFound ->
             text "404 Not Found"
 
-        TablesPage ->
-            Html.map MsgForTables (Tables.View.formView model.tables)
+        TablesListPage eventId ->
+            Html.map MsgForTables (Tables.View.listView eventId model.tables)
+
+        TablesFormPage _ ->
+            text "not implemented"
 
         EventsListPage ->
             Html.map MsgForEvents (Events.View.listView model.events)

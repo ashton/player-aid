@@ -9,8 +9,8 @@ import Maybe exposing (withDefault)
 import Tables.Types exposing (Msg(..), TableData)
 
 
-view : TableData -> Html Msg
-view formData =
+view : String -> TableData -> Html Msg
+view eventId formData =
     let
         getString =
             withDefault ""
