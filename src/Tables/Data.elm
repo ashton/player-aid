@@ -1,4 +1,4 @@
-module Tables.Data exposing (getEventTables)
+module Tables.Data exposing (createTableForEvent, getEventTables)
 
 import Http
 import Json.Decode as Decode
@@ -7,6 +7,24 @@ import Json.Encode.Extra exposing (maybe)
 import RemoteData
 import String.Format
 import Tables.Types exposing (Msg(..), Table, TableData)
+
+
+tableEncoder : TableData -> Encode.Value
+tableEncoder formData =
+    let
+        object =
+            Encode.object
+
+        int =
+            Encode.int
+
+        string =
+            Encode.string
+    in
+    object
+        [ ( "game", maybe string formData.game )
+        , ( "maxPlayers", maybe int formData.maxPlayers )
+        ]
 
 
 tableListDecoder : Decode.Decoder (List Table)
@@ -44,7 +62,9 @@ getEventTables : String -> String -> Cmd Msg
 getEventTables baseUrl eventId =
     let
         url =
-            "{{}}/events/{{}}/tables" |> String.Format.value baseUrl |> String.Format.value eventId
+            "{{}}/events/{{}}/tables"
+                |> String.Format.value baseUrl
+                |> String.Format.value eventId
 
         resultMsg =
             RemoteData.fromResult >> HandleList
@@ -52,4 +72,22 @@ getEventTables baseUrl eventId =
     Http.get
         { url = url
         , expect = Http.expectJson resultMsg tableListDecoder
+        }
+
+
+createTableForEvent : String -> String -> TableData -> Cmd Msg
+createTableForEvent eventId baseUrl formData =
+    let
+        url =
+            "{{}}/events/{{}}/tables"
+                |> String.Format.value baseUrl
+                |> String.Format.value eventId
+
+        returnMsg =
+            RemoteData.fromResult >> TableCreated
+    in
+    Http.post
+        { url = url
+        , body = Http.jsonBody <| tableEncoder formData
+        , expect = Http.expectJson returnMsg tableDecoder
         }

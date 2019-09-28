@@ -8,6 +8,7 @@ import Return exposing (Return, return)
 import Router.Helpers exposing (toPath)
 import Router.Routes exposing (..)
 import Router.Types exposing (..)
+import Tables.Types
 import Types
 import Url exposing (Url)
 
@@ -29,6 +30,9 @@ update msgFor model =
 
         Types.MsgForEvents (Events.Types.EventCreated _) ->
             updateRouter (Go EventsListPage) model
+
+        Types.MsgForTables (Tables.Types.TableCreated (Success table)) ->
+            updateRouter (Go <| TablesListPage table.event) model
 
         _ ->
             return model Cmd.none

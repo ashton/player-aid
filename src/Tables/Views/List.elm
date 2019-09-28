@@ -16,7 +16,7 @@ view eventId tables =
         []
         [ tableHeader
         , tableContent tables
-        , tableFooter
+        , tableFooter eventId
         ]
 
 
@@ -55,8 +55,8 @@ loading =
         ]
 
 
-tableFooter : Html Msg
-tableFooter =
+tableFooter : String -> Html Msg
+tableFooter eventId =
     let
         modifiers =
             { buttonModifiers | color = Modifiers.Primary }
@@ -65,7 +65,7 @@ tableFooter =
         [ tableRow False
             []
             [ tableCellHead [ colspan 3, class "has-text-right" ]
-                [ button modifiers [ href (toPath EventsFormPage) ] [ text "New" ]
+                [ button modifiers [ href (toPath <| TablesFormPage eventId) ] [ text "Create" ]
                 ]
             ]
         ]
@@ -73,7 +73,20 @@ tableFooter =
 
 renderTables : List Table -> List (Html Msg)
 renderTables tables =
-    List.map renderTable tables
+    case tables of
+        [] ->
+            List.singleton renderEmpty
+
+        _ ->
+            List.map renderTable tables
+
+
+renderEmpty : Html Msg
+renderEmpty =
+    tableRow False
+        []
+        [ tableCell [ colspan 3 ] [ text "No tables in this event yet." ]
+        ]
 
 
 renderTable : Table -> Html Msg

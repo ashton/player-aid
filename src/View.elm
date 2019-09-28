@@ -46,8 +46,8 @@ renderRoute model =
         TablesListPage eventId ->
             Html.map MsgForTables (Tables.View.listView eventId model.tables)
 
-        TablesFormPage _ ->
-            text "not implemented"
+        TablesFormPage eventId ->
+            Html.map MsgForTables (Tables.View.formView eventId model.tables)
 
         EventsListPage ->
             Html.map MsgForEvents (Events.View.listView model.events)

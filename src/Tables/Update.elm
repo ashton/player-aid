@@ -4,7 +4,7 @@ import RemoteData exposing (RemoteData(..))
 import Return exposing (Return, return)
 import Router.Routes exposing (Page(..), parseUrl)
 import Router.Types exposing (Msg(..))
-import Tables.Data exposing (getEventTables)
+import Tables.Data exposing (createTableForEvent, getEventTables)
 import Tables.Helpers exposing (updateFormGame, updateFormMaxPlayers)
 import Tables.Types exposing (Model, Msg(..), TableData)
 import Types
@@ -29,7 +29,7 @@ update : Types.Config -> Types.Msg -> Model -> Return Msg Model
 update config msgFor model =
     case msgFor of
         Types.MsgForTables msg ->
-            updateTables msg model
+            updateTables config msg model
 
         Types.MsgForRouter (OnUrlChange url) ->
             case parseUrl url of
@@ -43,8 +43,8 @@ update config msgFor model =
             return model Cmd.none
 
 
-updateTables : Msg -> Model -> Return Msg Model
-updateTables msg model =
+updateTables : Types.Config -> Msg -> Model -> Return Msg Model
+updateTables config msg model =
     case msg of
         HandleList tables ->
             return { model | tables = tables } Cmd.none
@@ -62,3 +62,13 @@ updateTables msg model =
                     updateFormMaxPlayers (Just maxPlayers) model.form
             in
             return { model | form = updatedForm } Cmd.none
+
+        HandleFormSubmit eventId ->
+            let
+                command =
+                    createTableForEvent eventId config.apiUrl model.form
+            in
+            return model command
+
+        _ ->
+            return model Cmd.none

@@ -32,3 +32,5 @@ type Msg
     = HandleList Tables
     | UpdateFormGame String
     | UpdateFormMaxPlayers String
+    | HandleFormSubmit String
+    | TableCreated (WebData Table)
