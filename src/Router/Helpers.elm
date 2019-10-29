@@ -29,6 +29,11 @@ toPath page =
                 |> String.Format.value eventId
                 |> String.Format.value tableId
 
+        AddPlayerFormPage eventId tableId ->
+            "/events/{{  }}/tables/{{  }}/players/add"
+                |> String.Format.value eventId
+                |> String.Format.value tableId
+
 
 changeRoute : Page -> Types.Msg
 changeRoute =

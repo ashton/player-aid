@@ -1,6 +1,12 @@
-module Players.Types exposing (Model, Msg(..), Player, Players)
+module Players.Types exposing (Model, Msg(..), Player, PlayerData, Players)
 
 import RemoteData exposing (WebData)
+
+
+type alias PlayerData =
+    { name : Maybe String
+    , phone : Maybe String
+    }
 
 
 type alias Player =
@@ -14,8 +20,14 @@ type alias Players =
 
 
 type alias Model =
-    WebData Players
+    { players : WebData Players
+    , form : PlayerData
+    }
 
 
 type Msg
     = HandleList (WebData Players)
+    | UpdateFormName String
+    | UpdateFormPhone String
+    | HandleFormSubmit String String
+    | PlayerAdded String String (WebData Player)

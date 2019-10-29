@@ -1,10 +1,27 @@
-module Players.Data exposing (getPlayersInTable, playerDecoder)
+module Players.Data exposing (addPlayerToTable, getPlayersInTable, playerDecoder)
 
 import Http
 import Json.Decode as Decode
-import Players.Types exposing (Msg(..), Player, Players)
+import Json.Encode as Encode
+import Json.Encode.Extra exposing (maybe)
+import Players.Types exposing (Msg(..), Player, PlayerData, Players)
 import RemoteData
 import String.Format
+
+
+playerEncoder : PlayerData -> Encode.Value
+playerEncoder formData =
+    let
+        object =
+            Encode.object
+
+        string =
+            Encode.string
+    in
+    object
+        [ ( "name", maybe string formData.name )
+        , ( "phone", maybe string formData.phone )
+        ]
 
 
 playerDecoder : Decode.Decoder Player
@@ -53,4 +70,22 @@ getPlayersInTable baseUrl tableId =
     Http.get
         { url = url
         , expect = Http.expectJson resultMsg playerListDecoder
+        }
+
+
+addPlayerToTable : String -> String -> String -> PlayerData -> Cmd Msg
+addPlayerToTable baseUrl eventId tableId formData =
+    let
+        url =
+            "{{}}/tables/{{}}/players"
+                |> String.Format.value baseUrl
+                |> String.Format.value tableId
+
+        returnMsg =
+            RemoteData.fromResult >> PlayerAdded eventId tableId
+    in
+    Http.post
+        { url = url
+        , body = Http.jsonBody <| playerEncoder formData
+        , expect = Http.expectJson returnMsg playerDecoder
         }

@@ -4,6 +4,7 @@ import Bulma.Modifiers as Modifiers
 import Events.Helpers exposing (eventNotificationFor)
 import Feedback.Helpers exposing (addMessage)
 import Feedback.Types exposing (Model, Msg(..))
+import Players.Helpers exposing (playersNotificationFor)
 import RemoteData exposing (RemoteData(..))
 import Return exposing (Return, return)
 import Tables.Helpers exposing (tableNotificationFor)
@@ -36,6 +37,14 @@ update msgFor model =
 
         Types.MsgForTables msg ->
             case tableNotificationFor msg of
+                Just { text, color } ->
+                    addMessage text color model
+
+                _ ->
+                    nothingHappens
+
+        Types.MsgForPlayers msg ->
+            case playersNotificationFor msg of
                 Just { text, color } ->
                     addMessage text color model
 

@@ -3,6 +3,7 @@ module Router.Update exposing (init, update)
 import Browser exposing (UrlRequest(..))
 import Browser.Navigation exposing (Key, load, pushUrl)
 import Events.Types
+import Players.Types
 import RemoteData exposing (..)
 import Return exposing (Return, return)
 import Router.Helpers exposing (toPath)
@@ -33,6 +34,9 @@ update msgFor model =
 
         Types.MsgForTables (Tables.Types.TableCreated (Success table)) ->
             updateRouter (Go <| TablesListPage table.event) model
+
+        Types.MsgForPlayers (Players.Types.PlayerAdded eventId tableId _) ->
+            updateRouter (Go <| TablesListPage eventId) model
 
         _ ->
             return model Cmd.none

@@ -59,6 +59,9 @@ renderRoute model =
         PlayersListPage eventId tableId ->
             Html.map MsgForPlayers (Players.View.listView eventId tableId model.players)
 
+        AddPlayerFormPage eventId tableId ->
+            Html.map MsgForPlayers (Players.View.formView eventId tableId model.players)
+
 
 appbar : Page -> Html Types.Msg
 appbar currentPage =

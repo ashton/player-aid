@@ -4,19 +4,19 @@ import Bulma.Elements exposing (button, buttonModifiers, table, tableBody, table
 import Bulma.Modifiers as Modifiers
 import Html exposing (Html, a, i, text)
 import Html.Attributes exposing (class, colspan, href)
-import Players.Types exposing (Model, Msg(..), Player, Players)
-import RemoteData exposing (RemoteData(..))
+import Players.Types exposing (Msg(..), Player, Players)
+import RemoteData exposing (RemoteData(..), WebData)
 import Router.Helpers exposing (toPath)
 import Router.Routes exposing (Page(..))
 
 
-view : Model -> Html Msg
-view model =
+view : String -> String -> WebData Players -> Html Msg
+view eventId tableId model =
     table tableModifiers
         []
         [ tableHeader
         , tableContent model
-        , tableFooter
+        , tableFooter eventId tableId
         ]
 
 
@@ -31,7 +31,7 @@ tableHeader =
         ]
 
 
-tableContent : Model -> Html Msg
+tableContent : WebData Players -> Html Msg
 tableContent model =
     case model of
         Loading ->
@@ -54,8 +54,8 @@ loading =
         ]
 
 
-tableFooter : Html Msg
-tableFooter =
+tableFooter : String -> String -> Html Msg
+tableFooter eventId tableId =
     let
         modifiers =
             { buttonModifiers | color = Modifiers.Primary }
@@ -64,7 +64,7 @@ tableFooter =
         [ tableRow False
             []
             [ tableCellHead [ colspan 3, class "has-text-right" ]
-                [ button modifiers [ href (toPath EventsFormPage) ] [ text "New" ]
+                [ button modifiers [ href <| toPath <| AddPlayerFormPage eventId tableId ] [ text "New" ]
                 ]
             ]
         ]
