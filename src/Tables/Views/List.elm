@@ -7,7 +7,8 @@ import Html.Attributes exposing (class, colspan, href)
 import RemoteData exposing (RemoteData(..))
 import Router.Helpers exposing (toPath)
 import Router.Routes exposing (Page(..))
-import Tables.Types exposing (Model, Msg(..), Table, Tables)
+import Tables.Helpers exposing (getRemainingSpots)
+import Tables.Types exposing (Msg(..), Table, Tables)
 
 
 view : String -> Tables -> Html Msg
@@ -26,8 +27,7 @@ tableHeader =
         [ tableRow False
             []
             [ tableCellHead [] [ text "Game" ]
-            , tableCellHead [] [ text "Max Players" ]
-            , tableCellHead [] [ text "Full" ]
+            , tableCellHead [] [ text "Remaning Spots" ]
             ]
         ]
 
@@ -85,7 +85,7 @@ renderEmpty : Html Msg
 renderEmpty =
     tableRow False
         []
-        [ tableCell [ colspan 3 ] [ text "No tables in this event yet." ]
+        [ tableCell [ colspan 2 ] [ text "No tables in this event yet." ]
         ]
 
 
@@ -93,7 +93,10 @@ renderTable : Table -> Html Msg
 renderTable table =
     tableRow False
         []
-        [ tableCell [] [ text table.game ]
-        , tableCell [] [ text <| String.fromInt <| table.maxPlayers ]
-        , tableCell [] [ text "No" ]
+        [ tableCell []
+            [ a [ href <| toPath <| PlayersListPage table.event table.id ]
+                [ text table.game
+                ]
+            ]
+        , tableCell [] [ text <| getRemainingSpots table ]
         ]

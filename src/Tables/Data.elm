@@ -4,6 +4,7 @@ import Http
 import Json.Decode as Decode
 import Json.Encode as Encode
 import Json.Encode.Extra exposing (maybe)
+import Players.Data exposing (playerDecoder)
 import RemoteData
 import String.Format
 import Tables.Types exposing (Msg(..), Table, TableData)
@@ -39,8 +40,8 @@ tableListDecoder =
 tableDecoder : Decode.Decoder Table
 tableDecoder =
     let
-        map4 =
-            Decode.map4
+        map5 =
+            Decode.map5
 
         field =
             Decode.field
@@ -50,12 +51,19 @@ tableDecoder =
 
         int =
             Decode.int
+
+        at =
+            Decode.at
+
+        list =
+            Decode.list
     in
-    map4 Table
+    map5 Table
         (field "id" string)
         (field "game" string)
         (field "maxPlayers" int)
         (field "event" string)
+        (at [ "players" ] <| list playerDecoder)
 
 
 getEventTables : String -> String -> Cmd Msg

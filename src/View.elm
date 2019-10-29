@@ -9,6 +9,7 @@ import Events.View
 import Feedback.View
 import Html exposing (Html, div, i, span, text)
 import Html.Attributes exposing (class)
+import Players.View
 import Router.Routes exposing (Page(..))
 import Router.Types exposing (Msg(..))
 import Tables.View
@@ -54,6 +55,9 @@ renderRoute model =
 
         EventsFormPage ->
             Html.map MsgForEvents (Events.View.formView model.events)
+
+        PlayersListPage eventId tableId ->
+            Html.map MsgForPlayers (Players.View.listView eventId tableId model.players)
 
 
 appbar : Page -> Html Types.Msg

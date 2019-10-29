@@ -1,5 +1,6 @@
 module Tables.Types exposing (Model, Msg(..), Table, TableData, Tables)
 
+import Players.Types exposing (Players)
 import RemoteData exposing (WebData)
 
 
@@ -8,6 +9,7 @@ type alias Table =
     , game : String
     , maxPlayers : Int
     , event : String
+    , players : Players
     }
 
 

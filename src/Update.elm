@@ -3,6 +3,7 @@ module Update exposing (andMapCmd, init, update)
 import Browser.Navigation exposing (Key)
 import Events.Update
 import Feedback.Update
+import Players.Update
 import Return exposing (Return, andMap, mapCmd, singleton)
 import Router.Update
 import Tables.Update
@@ -16,6 +17,7 @@ init config url key =
         |> andMapCmd MsgForRouter (Router.Update.init url key)
         |> andMapCmd MsgForTables Tables.Update.init
         |> andMapCmd MsgForEvents (Events.Update.init config)
+        |> andMapCmd MsgForPlayers Players.Update.init
         |> andMapCmd MsgForFeedback Feedback.Update.init
 
 
@@ -25,6 +27,7 @@ update msg model =
         |> andMapCmd MsgForRouter (Router.Update.update msg model.router)
         |> andMapCmd MsgForTables (Tables.Update.update model.config msg model.tables)
         |> andMapCmd MsgForEvents (Events.Update.update model.config msg model.events)
+        |> andMapCmd MsgForPlayers (Players.Update.update model.config msg model.players)
         |> andMapCmd MsgForFeedback (Feedback.Update.update msg model.feedback)
 
 

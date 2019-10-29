@@ -10,6 +10,7 @@ type Page
     | TablesFormPage String
     | EventsListPage
     | EventsFormPage
+    | PlayersListPage String String
 
 
 routes : Parser (Page -> a) a
@@ -21,6 +22,7 @@ routes =
         , map TablesFormPage (s "events" </> string </> s "tables" </> s "new")
         , map EventsListPage (s "events")
         , map EventsFormPage (s "events" </> s "new")
+        , map PlayersListPage (s "events" </> string </> s "tables" </> string </> s "players")
         ]
 
 
